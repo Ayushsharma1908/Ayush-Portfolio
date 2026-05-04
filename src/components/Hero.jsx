@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const ROLES = ['Full-Stack Developer', 'AI Enthusiast', 'UI/UX Craftsman'];
+const ROLES = ['Full-Stack Developer', 'AI Enthusiast', 'UI/UX Craftsman', 'Software Engineer'];
 
 export default function Hero() {
   const nameRef   = useRef(null);

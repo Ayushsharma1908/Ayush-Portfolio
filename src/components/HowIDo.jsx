@@ -402,9 +402,9 @@ export default function HowIDo() {
     <section className="relative z-10 py-32 px-[6vw] bg-coal-mid border-t border-grey-border">
       <SectionLabel>02 — Process &amp; Stack</SectionLabel>
       <SectionTitle>
-        How<br />
+      Skills<br />
         <em className="font-serif" style={{ color:'#c0392b', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
-          I Do It
+          & Strengths
         </em>
       </SectionTitle>
 

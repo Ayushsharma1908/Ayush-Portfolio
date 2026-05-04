@@ -92,7 +92,7 @@ export default function WhatIDo() {
       <SectionTitle>
         What<br />
         <em className="font-serif not-italic" style={{ color: '#c0392b', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
-          I Do
+          I Bring to the Table
         </em>
       </SectionTitle>
 

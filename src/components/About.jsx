@@ -48,10 +48,10 @@ export default function About() {
 
           <div className="space-y-5">
             <p ref={p1} className="text-base leading-[1.9] text-grey-muted font-light">
-              <strong className="text-white font-normal">Ayush Kumar Sharma</strong> is a Full-Stack Developer from Jharkhand, India, obsessively building at the intersection of clean design and intelligent software.
+              <strong className="text-white font-normal">I am</strong> a Full-Stack Developer from Jharkhand, India, obsessively building at the intersection of clean design and intelligent software.
             </p>
             <p ref={p2} className="text-base leading-[1.9] text-grey-muted font-light">
-              With a focus on <strong className="text-white font-normal">React, Node.js, and AI-powered applications</strong>, Ayush turns ideas into scalable, production-ready products that real users love. Every line of code is written with intent.
+              With a focus on <strong className="text-white font-normal">React, Node.js, and AI-powered applications</strong>, I turn ideas into scalable, production-ready products that real users love. Every line of code is written with intent.
             </p>
             <p ref={p3} className="text-base leading-[1.9] text-grey-muted font-light">
               When not building, obsessing over <strong className="text-white font-normal">pixel-perfect design</strong> and the craft of clean, maintainable code. Always learning — always shipping.
