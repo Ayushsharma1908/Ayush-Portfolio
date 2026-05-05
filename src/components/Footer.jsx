@@ -26,7 +26,7 @@ export function Footer() {
 
       {/* Tagline */}
       <p className="font-serif italic text-grey-muted text-lg mb-8 max-w-lg">
-        Building AI-driven web apps with React &amp; cloud tech —{' '}
+        Building AI-driven web apps &amp; cloud tech —{' '}
         <span style={{ color:'#c0392b' }}>one commit at a time.</span>
       </p>
 
