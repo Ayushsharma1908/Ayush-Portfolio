@@ -169,7 +169,7 @@ export default function Contact() {
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] tracking-[0.3em] uppercase text-[#555] font-body">Your Email *</label>
                 <input type="email" name="email" required
-                  placeholder="you@example.com"
+                  placeholder="you@gmail.com"
                   value={form.email} onChange={handleChange}
                   onFocus={() => setFocused('email')} onBlur={() => setFocused('')}
                   style={inputStyle('email')} />
