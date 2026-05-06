@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { label: 'How', href: '#how' },
   { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -26,7 +27,11 @@ export default function Navbar() {
       }}
     >
       {/* Logo */}
-      <a href="#" data-hover className="font-display text-xl tracking-[0.25em] uppercase text-white hover:text-red-DEFAULT transition-colors duration-300">
+      <a
+        href="#"
+        data-hover
+        className="font-display text-xl tracking-[0.25em] uppercase text-white hover:text-[#c0392b] transition-colors duration-300"
+      >
         AKS
       </a>
 
@@ -37,7 +42,7 @@ export default function Navbar() {
             key={link.href}
             href={link.href}
             data-hover
-            className="font-body text-[11px] tracking-[0.3em] uppercase text-grey-muted hover:text-white transition-colors duration-300"
+            className="font-body text-[11px] tracking-[0.3em] uppercase text-[#888] hover:text-white transition-colors duration-300"
           >
             {link.label}
           </a>
@@ -50,7 +55,7 @@ export default function Navbar() {
         target="_blank"
         rel="noreferrer"
         data-hover
-        className="text-[10px] tracking-[0.25em] uppercase border border-red-DEFAULT text-red-DEFAULT px-4 py-2 hover:bg-red-DEFAULT hover:text-white transition-all duration-300"
+        className="text-[10px] tracking-[0.25em] uppercase border border-[#c0392b] text-[#c0392b] px-4 py-2 hover:bg-[#c0392b] hover:text-white transition-all duration-300"
       >
         GitHub ↗
       </a>
