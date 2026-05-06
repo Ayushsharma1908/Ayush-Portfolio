@@ -6,6 +6,7 @@ import WhatIDo from './components/WhatIDo';
 import HowIDo from './components/HowIDo';
 import Projects from './components/Projects';
 import About from './components/About';
+import Contact from './components/Contact';
 import { PhilosophyBar, Footer } from './components/Footer';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <div id="how"><HowIDo /></div>
         <div id="projects"><Projects /></div>
         <div id="about"><About /></div>
+        <div id="contact"><Contact /></div>
       </main>
       <Footer />
     </>
