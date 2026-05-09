@@ -49,7 +49,7 @@ export function Footer() {
       {/* Bottom */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <span className="text-[11px] tracking-[0.1em] text-[#333]">© Ayush Kumar Sharma — Jharkhand, India</span>
-        <span className="text-[11px] tracking-[0.1em] text-[#333]">React · Three.js · Tailwind CSS</span>
+        <span className="text-[11px] tracking-[0.1em] text-[#333]">Build with - React · Three.js · Tailwind CSS</span>
       </div>
     </footer>
   );
