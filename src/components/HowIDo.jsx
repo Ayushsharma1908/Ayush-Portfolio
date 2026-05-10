@@ -403,7 +403,7 @@ export default function HowIDo() {
       <SectionLabel>02 — Process &amp; Stack</SectionLabel>
       <SectionTitle>
       Skills<br />
-        <em className="font-serif" style={{ color:'#c0392b', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
+        <em className="font-serif" style={{ color:'#c0392c', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
           & Strengths
         </em>
       </SectionTitle>
