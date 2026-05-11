@@ -220,7 +220,7 @@ export default function WhatIDo() {
 
   return (
     <section className="relative z-10 py-32 px-[6vw] bg-[#0a0a0a] border-t border-[#1e1e1e]">
-      <SectionLabel>01 — Expertise</SectionLabel>
+      <SectionLabel>01 — My Expertise</SectionLabel>
 
       {/* Title */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
