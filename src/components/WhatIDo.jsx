@@ -20,7 +20,7 @@ const ROLES = [
       'Database modelling & optimisation',
       'Authentication & authorization flows',
     ],
-    tags: ['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'TypeScript'],
+    tags: ['React', 'Next.js', 'Node.js', 'Next.js', 'Express', 'MongoDB', 'PostgreSQL', 'TypeScript'],
     accent: '#c0392b',
   },
   {
