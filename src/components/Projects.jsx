@@ -105,7 +105,7 @@ function ProjectRow({ project, delay }) {
 
 export default function Projects() {
   return (
-    <section className="relative z-10 py-32 px-[6vw] bg-coal border-t border-grey-border">
+    <section className="relative z-10 py-32 px-[4vw] bg-coal border-t border-grey-border">
       <SectionLabel>03 — Work</SectionLabel>
       <SectionTitle>
         Featured<br />
