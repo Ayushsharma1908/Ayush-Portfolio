@@ -43,7 +43,7 @@ function ProjectRow({ project, delay }) {
     <div ref={ref}>
       <div
         data-hover
-        className="group relative grid items-center gap-6 py-7 border-b border-grey-border cursor-pointer overflow-hidden"
+        className="group relative grid items-center gap-4 py-5 border-b border-grey-border cursor-pointer overflow-hidden"
         style={{ gridTemplateColumns: 'auto 1fr auto auto' }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
