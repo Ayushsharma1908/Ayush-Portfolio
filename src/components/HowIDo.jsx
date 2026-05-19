@@ -1,436 +1,492 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
+import * as THREE from 'three';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { SectionLabel, SectionTitle } from './SectionHelpers';
+import { SectionLabel } from './SectionHelpers';
 
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════
    DATA
-───────────────────────────────────────────── */
-const TECH_CATEGORIES = [
+═══════════════════════════════════════════ */
+const CATEGORIES = [
   {
     id: 'frontend',
     label: 'Frontend',
-    icon: '⚡',
-    color: '#c0392b',
-    desc: 'Crafting pixel-perfect, responsive UIs with modern React ecosystem.',
-    stacks: [
-      { name: 'React',       pct: 88, tag: 'Expert',         line: 'My primary weapon — I think in components.' },
-      { name: 'Next.js',     pct: 75, tag: 'Proficient',     line: 'SSR, SSG, App Router — all covered.' },
-      { name: 'TypeScript',  pct: 70, tag: 'Proficient',     line: 'Type-safe codebases, fewer bugs.' },
-      { name: 'Tailwind CSS',pct: 85, tag: 'Expert',         line: 'Utility-first CSS is my second language.' },
-      { name: 'HTML & CSS',  pct: 92, tag: 'Expert',         line: 'The foundation — solid as rock.' },
+    skills: [
+      { name: 'React',        pct: 88, tag: 'Expert',       icon: 'RE', note: 'My primary weapon — I think in components.' },
+      { name: 'Next.js',      pct: 75, tag: 'Proficient',   icon: 'NX', note: 'SSR, SSG, App Router — all covered.' },
+      { name: 'Tailwind CSS', pct: 85, tag: 'Expert',       icon: 'TW', note: 'Utility-first CSS is my second language.' },
+      { name: 'TypeScript',   pct: 70, tag: 'Proficient',   icon: 'TS', note: 'Type-safe codebases, fewer bugs.' },
+      { name: 'HTML & CSS',   pct: 92, tag: 'Expert',       icon: 'HT', note: 'The foundation — solid as rock.' },
     ],
   },
   {
     id: 'backend',
     label: 'Backend',
-    icon: '🛠',
-    color: '#8b1a1a',
-    desc: 'Building robust, scalable APIs and server-side systems.',
-    stacks: [
-      { name: 'Node.js',    pct: 82, tag: 'Expert',     line: 'Full async, event-loop, everything.' },
-      { name: 'Express.js', pct: 80, tag: 'Expert',     line: 'REST APIs, middleware, routing — daily driver.' },
-      { name: 'MongoDB',    pct: 75, tag: 'Proficient', line: 'NoSQL schemas, aggregation pipelines.' },
-      { name: 'PostgreSQL', pct: 60, tag: 'Intermediate', line: 'Relational DB when structure matters.' },
-      { name: 'REST APIs',  pct: 85, tag: 'Expert',     line: 'Designing clean, versioned API contracts.' },
-    ],
-  },
-  {
-    id: 'ai',
-    label: 'AI & ML',
-    icon: '🤖',
-    color: '#c0392b',
-    desc: 'Integrating intelligent systems into real-world products.',
-    stacks: [
-      { name: 'LLM Integration', pct: 75, tag: 'Proficient',    line: 'OpenAI, Gemini, Claude APIs — production apps.' },
-      { name: 'AI Chatbots',     pct: 78, tag: 'Proficient',    line: 'Built "Hear Me Out" — full AI chat system.' },
-      { name: 'Prompt Eng.',     pct: 72, tag: 'Proficient',    line: 'Crafting prompts for reliable AI outputs.' },
-      { name: 'ML Concepts',     pct: 50, tag: 'Learning',      line: 'Exploring supervised learning & neural nets.' },
+    skills: [
+      { name: 'Node.js',    pct: 82, tag: 'Expert',       icon: 'ND', note: 'Full async, event-loop, everything.' },
+      { name: 'Express.js', pct: 80, tag: 'Expert',       icon: 'EX', note: 'REST APIs, middleware — daily driver.' },
+      { name: 'MongoDB',    pct: 75, tag: 'Proficient',   icon: 'MG', note: 'NoSQL schemas, aggregation pipelines.' },
+      { name: 'PostgreSQL', pct: 60, tag: 'Intermediate', icon: 'PG', note: 'Relational DB when structure matters.' },
+      { name: 'REST APIs',  pct: 85, tag: 'Expert',       icon: 'AP', note: 'Designing clean, versioned API contracts.' },
     ],
   },
   {
     id: 'languages',
     label: 'Languages',
-    icon: '💬',
-    color: '#8b1a1a',
-    desc: 'Programming languages in my daily toolkit.',
-    stacks: [
-      { name: 'JavaScript', pct: 90, tag: 'Expert',       line: 'The language I dream in. ES2024+.' },
-      { name: 'TypeScript', pct: 70, tag: 'Proficient',   line: 'Adding safety to JS — love it.' },
-      { name: 'Python',     pct: 55, tag: 'Intermediate', line: 'Scripting, ML exploration, automation.' },
-      { name: 'SQL',        pct: 62, tag: 'Intermediate', line: 'Queries, joins, stored procedures.' },
+    skills: [
+      { name: 'JavaScript', pct: 90, tag: 'Expert',       icon: 'JS', note: 'The language I dream in. ES2024+.' },
+      { name: 'TypeScript', pct: 70, tag: 'Proficient',   icon: 'TS', note: 'Adding safety to JS — love it.' },
+      { name: 'Python',     pct: 55, tag: 'Intermediate', icon: 'PY', note: 'Scripting, ML exploration, automation.' },
+      { name: 'SQL',        pct: 62, tag: 'Intermediate', icon: 'SQ', note: 'Queries, joins, stored procedures.' },
+      { name: 'Bash',       pct: 50, tag: 'Learning',     icon: 'SH', note: 'Shell scripting for dev workflows.' },
     ],
   },
   {
-    id: 'devops',
-    label: 'DevOps',
-    icon: '🔧',
-    color: '#c0392b',
-    desc: 'Shipping, versioning and deploying with confidence.',
-    stacks: [
-      { name: 'Git & GitHub', pct: 85, tag: 'Expert',       line: 'Branching strategies, PR reviews, actions.' },
-      { name: 'Vercel',       pct: 82, tag: 'Expert',       line: 'Zero-config deploy — my go-to platform.' },
-      { name: 'VS Code',      pct: 95, tag: 'Expert',       line: 'My IDE, fully configured for speed.' },
-      { name: 'Linux/Bash',   pct: 60, tag: 'Intermediate', line: 'Command line for daily dev tasks.' },
-    ],
-  },
-  {
-    id: 'design',
-    label: 'Design',
-    icon: '🎨',
-    color: '#8b1a1a',
-    desc: 'From wireframes to pixel-perfect implementations.',
-    stacks: [
-      { name: 'Figma',          pct: 70, tag: 'Proficient',   line: 'UI design, prototyping, component libraries.' },
-      { name: 'UI/UX Design',   pct: 72, tag: 'Proficient',   line: 'User-centric design thinking.' },
-      { name: 'Motion Design',  pct: 65, tag: 'Intermediate', line: 'GSAP, Framer Motion, CSS animations.' },
-      { name: 'Responsive CSS', pct: 88, tag: 'Expert',       line: 'Mobile-first layouts, every screen.' },
+    id: 'tools',
+    label: 'AI & Tools',
+    skills: [
+      { name: 'LLM APIs',     pct: 75, tag: 'Proficient', icon: 'AI', note: 'OpenAI, Gemini, Claude — production apps.' },
+      { name: 'AI Chatbots',  pct: 78, tag: 'Proficient', icon: 'CB', note: 'Built "Hear Me Out" — full AI chat system.' },
+      { name: 'Prompt Eng.',  pct: 72, tag: 'Proficient', icon: 'PR', note: 'Crafting prompts for reliable AI outputs.' },
+      { name: 'Git & GitHub', pct: 85, tag: 'Expert',     icon: 'GH', note: 'Branching strategies, PRs, GitHub Actions.' },
+      { name: 'Figma',        pct: 70, tag: 'Proficient', icon: 'FG', note: 'UI design & prototyping, component libs.' },
     ],
   },
 ];
 
-const TAG_COLORS = {
-  Expert:       { bg: 'rgba(192,57,43,0.15)', border: '#c0392b',  text: '#ff6b55' },
-  Proficient:   { bg: 'rgba(139,26,26,0.12)', border: '#8b1a1a',  text: '#cc4433' },
-  Intermediate: { bg: 'rgba(60,60,60,0.2)',   border: '#444',     text: '#aaa'    },
-  Learning:     { bg: 'rgba(30,30,30,0.2)',   border: '#333',     text: '#777'    },
+const TAG_META = {
+  Expert:       { color: '#ff5540', bg: 'rgba(192,57,43,0.14)', border: 'rgba(192,57,43,0.45)' },
+  Proficient:   { color: '#e07060', bg: 'rgba(192,57,43,0.07)', border: 'rgba(192,57,43,0.22)' },
+  Intermediate: { color: '#666',    bg: 'rgba(70,70,70,0.14)',  border: 'rgba(80,80,80,0.32)'  },
+  Learning:     { color: '#444',    bg: 'rgba(30,30,30,0.18)',  border: 'rgba(55,55,55,0.38)'  },
 };
 
-const MARQUEE_ITEMS = [
-  'React','·','Node.js','·','TypeScript','·','MongoDB','·',
-  'Next.js','·','PostgreSQL','·','Tailwind CSS','·','Express.js','·',
-  'Figma','·','Vercel','·','Git','·','LLM APIs','·',
-  'React','·','Node.js','·','TypeScript','·','MongoDB','·',
-  'Next.js','·','PostgreSQL','·','Tailwind CSS','·','Express.js','·',
-  'Figma','·','Vercel','·','Git','·','LLM APIs','·',
+const MARQUEE = [
+  'React','·','Next.js','·','Node.js','·','Express','·','MongoDB','·','TypeScript','·',
+  'JavaScript','·','Tailwind CSS','·','PostgreSQL','·','Python','·','Figma','·',
+  'Vercel','·','Git','·','REST APIs','·','LLM APIs','·','Three.js','·','GSAP','·',
+  'React','·','Next.js','·','Node.js','·','Express','·','MongoDB','·','TypeScript','·',
+  'JavaScript','·','Tailwind CSS','·','PostgreSQL','·','Python','·','Figma','·',
+  'Vercel','·','Git','·','REST APIs','·','LLM APIs','·','Three.js','·','GSAP','·',
 ];
 
-/* ─────────────────────────────────────────────
-   3D Circle Progress (SVG + CSS 3D shimmer)
-───────────────────────────────────────────── */
-function CircleProgress({ pct, color, size = 180 }) {
-  const [displayed, setDisplayed] = useState(0);
-  const radius = (size - 20) / 2;
-  const circ   = 2 * Math.PI * radius;
-  const stroke = circ * (1 - displayed / 100);
+/* ═══════════════════════════════════════════
+   THREE.JS SCENE
+═══════════════════════════════════════════ */
+function FloatingOrb() {
+  const ref = useRef();
+  useFrame(({ clock }) => {
+    ref.current.rotation.x = clock.getElapsedTime() * 0.18;
+    ref.current.rotation.y = clock.getElapsedTime() * 0.26;
+  });
+  return (
+    <Float speed={1.6} rotationIntensity={0.4} floatIntensity={1.2}>
+      <mesh ref={ref} scale={1.5}>
+        <icosahedronGeometry args={[1, 2]} />
+        <MeshDistortMaterial color="#c0392b" distort={0.35} speed={2} wireframe opacity={0.5} transparent />
+      </mesh>
+    </Float>
+  );
+}
 
+function WireBox({ pos, size, speed, opacity = 0.12 }) {
+  const ref = useRef();
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime() * speed;
+    ref.current.rotation.x = t * 0.7;
+    ref.current.rotation.y = t;
+  });
+  return (
+    <mesh ref={ref} position={pos}>
+      <boxGeometry args={[size, size, size]} />
+      <meshBasicMaterial color="#c0392b" wireframe transparent opacity={opacity} />
+    </mesh>
+  );
+}
+
+function Particles() {
+  const ref = useRef();
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(300 * 3);
+  for (let i = 0; i < 300 * 3; i++) pos[i] = (Math.random() - 0.5) * 10;
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  useFrame(({ clock }) => { ref.current.rotation.y = clock.getElapsedTime() * 0.04; });
+  return (
+    <points ref={ref} geometry={geo}>
+      <pointsMaterial color="#661111" size={0.025} transparent opacity={0.9} />
+    </points>
+  );
+}
+
+function Scene3D() {
+  return (
+    <Canvas camera={{ position: [0, 0, 5], fov: 55 }} style={{ background: 'transparent' }}>
+      <ambientLight intensity={0.3} />
+      <pointLight position={[3, 3, 3]} color="#c0392b" intensity={5} />
+      <pointLight position={[-3, -2, 2]} color="#ff2200" intensity={2.5} />
+      <FloatingOrb />
+      <WireBox pos={[ 2.8,  1.2, -1]}   size={0.7} speed={0.3} opacity={0.2} />
+      <WireBox pos={[-2.5, -1.0, -1]}   size={0.5} speed={0.5} opacity={0.15} />
+      <WireBox pos={[ 2.0, -1.8, -2]}   size={0.9} speed={0.2} opacity={0.1} />
+      <WireBox pos={[-2.2,  1.5, -1.5]} size={0.4} speed={0.4} opacity={0.13} />
+      <Particles />
+      <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.7} />
+    </Canvas>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATED PROGRESS BAR
+═══════════════════════════════════════════ */
+function Bar({ pct, animate }) {
+  const [w, setW] = useState(0);
   useEffect(() => {
-    setDisplayed(0);
-    const t = setTimeout(() => {
-      let v = 0;
-      const step = setInterval(() => {
-        v += 1.5;
-        if (v >= pct) { setDisplayed(pct); clearInterval(step); }
-        else setDisplayed(Math.round(v));
-      }, 14);
-      return () => clearInterval(step);
-    }, 120);
+    setW(0);
+    if (!animate) return;
+    const t = setTimeout(() => setW(pct), 100);
     return () => clearTimeout(t);
-  }, [pct]);
+  }, [animate, pct]);
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-      {/* Outer glow ring */}
-      <div className="absolute inset-0 rounded-full"
-        style={{ boxShadow: `0 0 40px 8px ${color}33, 0 0 80px 16px ${color}11`, borderRadius: '50%' }} />
-
-      <svg width={size} height={size} style={{ transform: 'rotateX(12deg)', filter: `drop-shadow(0 8px 24px ${color}55)` }}>
-        <defs>
-          <linearGradient id={`grad-${pct}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={color} stopOpacity="1" />
-            <stop offset="100%" stopColor="#ff6b55" stopOpacity="0.7" />
-          </linearGradient>
-        </defs>
-        {/* Track */}
-        <circle cx={size/2} cy={size/2} r={radius}
-          fill="none" stroke="#1a1a1a" strokeWidth="10" />
-        {/* Progress arc */}
-        <circle cx={size/2} cy={size/2} r={radius}
-          fill="none"
-          stroke={`url(#grad-${pct})`}
-          strokeWidth="10"
-          strokeLinecap="round"
-          strokeDasharray={circ}
-          strokeDashoffset={stroke}
-          transform={`rotate(-90 ${size/2} ${size/2})`}
-          style={{ transition: 'stroke-dashoffset 0.05s linear' }}
-        />
-        {/* Center dot */}
-        <circle cx={size/2} cy={size/2} r="5" fill={color} opacity="0.8" />
-      </svg>
-
-      {/* Percentage text */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-4xl text-white leading-none" style={{ textShadow: `0 0 20px ${color}` }}>
-          {displayed}
-        </span>
-        <span className="text-[11px] tracking-[0.2em] text-grey-muted uppercase mt-1">%</span>
-      </div>
+    <div className="relative flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: '#181818' }}>
+      <div
+        className="absolute left-0 top-0 h-full rounded-full"
+        style={{
+          width: `${w}%`,
+          background: 'linear-gradient(90deg, #8b1a1a, #c0392b, #ff5540)',
+          boxShadow: '0 0 6px rgba(192,57,43,0.6)',
+          transition: 'width 1s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      />
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────
-   Stack Detail Modal
-───────────────────────────────────────────── */
-function StackModal({ stack, catColor, onClose }) {
-  const tagStyle = TAG_COLORS[stack.tag] || TAG_COLORS.Intermediate;
-
-  useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+/* ═══════════════════════════════════════════
+   SKILL ROW
+═══════════════════════════════════════════ */
+function SkillRow({ skill, animate, i }) {
+  const tm = TAG_META[skill.tag] || TAG_META.Intermediate;
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)' }}
-      onClick={onClose}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group flex items-center gap-3 sm:gap-4 px-5 py-3.5 border-b border-[#111] last:border-b-0 transition-all duration-200 cursor-default"
+      style={{
+        background: hovered ? 'rgba(192,57,43,0.03)' : 'transparent',
+        transitionDelay: `${i * 60}ms`,
+      }}
     >
+      {/* Icon */}
       <div
-        className="relative max-w-sm w-full border border-grey-border"
+        className="w-8 h-8 flex-shrink-0 flex items-center justify-center font-display text-[10px] tracking-widest border transition-all duration-300"
         style={{
-          background: '#0d0d0d',
-          transform: 'perspective(800px) rotateX(2deg)',
-          boxShadow: `0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px ${catColor}44, 0 0 60px ${catColor}22`,
-          animation: 'modalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards',
+          border:     `1px solid ${hovered ? 'rgba(192,57,43,0.5)' : '#1a1a1a'}`,
+          color:      hovered ? '#c0392b' : '#333',
+          background: hovered ? 'rgba(192,57,43,0.07)' : '#0a0a0a',
         }}
-        onClick={e => e.stopPropagation()}
       >
-        {/* Top accent line */}
-        <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, ${catColor}, transparent)` }} />
-
-        <div className="p-8 flex flex-col items-center gap-6">
-          {/* Close */}
-          <button onClick={onClose}
-            className="absolute top-4 right-4 text-grey-muted hover:text-white text-xl leading-none transition-colors"
-            data-hover>✕</button>
-
-          {/* Stack name */}
-          <h3 className="font-display text-3xl tracking-widest uppercase text-white text-center">{stack.name}</h3>
-
-          {/* 3D Circle */}
-          <CircleProgress pct={stack.pct} color={catColor} size={190} />
-
-          {/* Tag badge */}
-          <div className="px-5 py-1.5 text-[11px] tracking-[0.3em] uppercase border font-body"
-            style={{ background: tagStyle.bg, borderColor: tagStyle.border, color: tagStyle.text }}>
-            {stack.tag}
-          </div>
-
-          {/* Tagline */}
-          <p className="font-serif italic text-grey-muted text-center text-base leading-relaxed px-2">
-            "{stack.line}"
-          </p>
-
-          {/* Mastery label */}
-          <div className="w-full">
-            <div className="flex justify-between text-[10px] tracking-[0.2em] uppercase text-grey-muted mb-2">
-              <span>Mastery</span><span>{stack.pct}%</span>
-            </div>
-            <div className="h-1 bg-grey-border rounded-full overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-1000"
-                style={{ width: `${stack.pct}%`, background: `linear-gradient(90deg, ${catColor}, #ff6b55)` }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom accent */}
-        <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, transparent, ${catColor})` }} />
+        {skill.icon}
       </div>
 
-      <style>{`
-        @keyframes modalIn {
-          from { opacity:0; transform:perspective(800px) rotateX(2deg) scale(0.88) translateY(30px); }
-          to   { opacity:1; transform:perspective(800px) rotateX(2deg) scale(1) translateY(0); }
-        }
-      `}</style>
+      {/* Name */}
+      <span
+        className="font-body text-[0.82rem] font-light flex-shrink-0 transition-colors duration-200"
+        style={{ width: '7.5rem', color: hovered ? '#fff' : '#888' }}
+      >
+        {skill.name}
+      </span>
+
+      {/* Bar */}
+      <Bar pct={skill.pct} animate={animate} />
+
+      {/* % */}
+      <span
+        className="font-display text-sm flex-shrink-0 text-right transition-colors duration-200"
+        style={{ width: '2.2rem', color: hovered ? '#ff5540' : '#c0392b', letterSpacing: '0.04em' }}
+      >
+        {skill.pct}%
+      </span>
+
+      {/* Tag */}
+      <div className="hidden sm:block flex-shrink-0" style={{ width: '6rem' }}>
+        <span
+          className="font-body text-[9px] tracking-[0.16em] uppercase px-2 py-1 block text-center"
+          style={{ color: tm.color, background: tm.bg, border: `1px solid ${tm.border}` }}
+        >
+          {skill.tag}
+        </span>
+      </div>
+
+      {/* Note — appears on hover */}
+      <span
+        className="hidden lg:block font-body text-[10px] leading-relaxed flex-1 transition-all duration-300"
+        style={{ color: hovered ? '#444' : '#252525', fontStyle: 'italic' }}
+      >
+        {skill.note}
+      </span>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────
-   Stack Item Row (inside a category card)
-───────────────────────────────────────────── */
-function StackItem({ stack, catColor, onClick }) {
-  const tagStyle = TAG_COLORS[stack.tag] || TAG_COLORS.Intermediate;
-  return (
-    <button
-      data-hover
-      onClick={onClick}
-      className="w-full text-left group/item py-3 border-b border-grey-border last:border-b-0 hover:pl-2 transition-all duration-200"
-    >
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="font-body text-sm text-white group-hover/item:text-white transition-colors">{stack.name}</span>
-        <div className="flex items-center gap-2">
-          <span className="text-[9px] tracking-[0.2em] uppercase px-2 py-0.5 border"
-            style={{ background: tagStyle.bg, borderColor: tagStyle.border, color: tagStyle.text }}>
-            {stack.tag}
-          </span>
-          <span className="font-display text-sm" style={{ color: catColor }}>{stack.pct}%</span>
-        </div>
-      </div>
-      {/* Mini progress bar */}
-      <div className="h-0.5 bg-grey-border rounded-full overflow-hidden">
-        <div className="h-full rounded-full" style={{
-          width: `${stack.pct}%`,
-          background: `linear-gradient(90deg, ${catColor}99, ${catColor})`,
-          transition: 'width 0.8s cubic-bezier(0.16,1,0.3,1)',
-        }} />
-      </div>
-    </button>
-  );
-}
+/* ═══════════════════════════════════════════
+   MAIN EXPORT
+═══════════════════════════════════════════ */
+export default function HowIDo() {
+  const [activeTab, setActiveTab] = useState('frontend');
+  const [animate, setAnimate]     = useState(true);
+  const sectionRef = useRef(null);
+  const panelRef   = useScrollReveal({ delay: 0.12 });
+  const titleRef   = useScrollReveal({ delay: 0.04, from: 'translateX(-40px)' });
 
-/* ─────────────────────────────────────────────
-   Category Card
-───────────────────────────────────────────── */
-function CategoryCard({ cat, delay }) {
-  const ref = useScrollReveal({ delay });
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [tilt, setTilt] = useState({ rx:0, ry:0 });
-  const cardRef = useRef(null);
+  const active = CATEGORIES.find(c => c.id === activeTab);
+  const avg    = Math.round(active.skills.reduce((s, x) => s + x.pct, 0) / active.skills.length);
 
-  const onMove = (e) => {
-    const rect = cardRef.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top  + rect.height / 2;
-    setTilt({
-      rx: ((e.clientY - cy) / (rect.height/2)) * -6,
-      ry: ((e.clientX - cx) / (rect.width /2)) *  6,
-    });
+  const switchTab = (id) => {
+    if (id === activeTab) return;
+    setAnimate(false);
+    setTimeout(() => { setActiveTab(id); setAnimate(true); }, 60);
   };
 
-  // average pct for the category
-  const avg = Math.round(cat.stacks.reduce((s, x) => s + x.pct, 0) / cat.stacks.length);
-
   return (
-    <>
-      <div ref={ref}>
+    <section
+      ref={sectionRef}
+      className="relative z-10 py-28 px-[6vw] bg-[#0d0d0d] border-t border-[#1e1e1e] overflow-hidden"
+    >
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(192,57,43,0.04) 0%, transparent 70%)' }} />
+
+      <SectionLabel>02 — Skills & Stack</SectionLabel>
+
+      {/* ── Title row + 3D Canvas ── */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+        <div ref={titleRef}>
+          <h2
+            className="font-display leading-none uppercase text-white"
+            style={{ fontSize: 'clamp(2.8rem, 6vw, 6rem)' }}
+          >
+            Skills &amp;<br />
+            <em
+              className="font-serif"
+              style={{ color: '#c0392b', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}
+            >
+              Strengths
+            </em>
+          </h2>
+          <p className="font-body text-xs text-[#3a3a3a] font-light mt-3 max-w-xs leading-relaxed">
+            Every tool sharpened. Click a category — see the depth.
+          </p>
+        </div>
+
+        {/* 3D canvas box */}
         <div
-          ref={cardRef}
-          data-hover
-          onMouseMove={onMove}
-          onMouseLeave={() => setTilt({ rx:0, ry:0 })}
-          onClick={() => setOpen(o => !o)}
-          className="relative border border-grey-border cursor-pointer overflow-hidden transition-all duration-300"
-          style={{
-            background: '#111',
-            transform: `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-            transition: 'transform 0.25s ease, box-shadow 0.3s ease',
-            boxShadow: open ? `0 0 0 1px ${cat.color}, 0 20px 50px ${cat.color}22` : 'none',
-          }}
+          className="w-full lg:w-60 h-52 lg:h-56 flex-shrink-0 relative"
+          style={{ border: '1px solid #1a1a1a', background: '#070707' }}
         >
-          {/* Top accent */}
-          <div className="h-0.5 w-full transition-all duration-300"
-            style={{ background: open ? `linear-gradient(90deg,${cat.color},transparent)` : 'transparent' }} />
-
-          {/* Header */}
-          <div className="p-6">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{cat.icon}</span>
-                <h3 className="font-display text-2xl tracking-widest uppercase text-white">{cat.label}</h3>
+          {/* Corner marks */}
+          <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#c0392b44]" />
+          <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-[#c0392b44]" />
+          <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-[#c0392b44]" />
+          <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#c0392b44]" />
+          <Suspense
+            fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="font-display text-[10px] tracking-widest text-[#222]">LOADING 3D…</span>
               </div>
-              {/* Avg pct ring */}
-              <div className="flex flex-col items-center">
-                <span className="font-display text-2xl leading-none" style={{ color: cat.color }}>{avg}</span>
-                <span className="text-[9px] text-grey-muted tracking-widest uppercase">avg %</span>
-              </div>
-            </div>
-
-            <p className="text-xs text-grey-muted font-light leading-relaxed mb-4">{cat.desc}</p>
-
-            {/* Mini sparkline summary */}
-            <div className="flex gap-1 items-end h-8">
-              {cat.stacks.map((s) => (
-                <div key={s.name} className="flex-1 rounded-sm transition-all duration-500"
-                  style={{
-                    height: `${(s.pct / 100) * 32}px`,
-                    background: `${cat.color}${open ? 'cc' : '66'}`,
-                    minWidth: 0,
-                  }} />
-              ))}
-            </div>
-
-            {/* Expand hint */}
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-[10px] tracking-[0.2em] uppercase text-grey-muted">
-                {open ? 'Click to collapse' : 'Click to expand'}
-              </span>
-              <span className="text-grey-muted transition-transform duration-300 text-sm"
-                style={{ transform: open ? 'rotate(180deg)' : 'none' }}>▾</span>
-            </div>
-          </div>
-
-          {/* Expanded stacks */}
-          <div style={{
-            maxHeight: open ? '500px' : '0',
-            overflow: 'hidden',
-            transition: 'max-height 0.5s cubic-bezier(0.16,1,0.3,1)',
-          }}>
-            <div className="px-6 pb-6 border-t border-grey-border">
-              <p className="text-[10px] tracking-[0.25em] uppercase text-grey-muted pt-4 pb-2">
-                Click any stack for details
-              </p>
-              {cat.stacks.map((s) => (
-                <StackItem key={s.name} stack={s} catColor={cat.color}
-                  onClick={(e) => { e.stopPropagation(); setSelected(s); }} />
-              ))}
-            </div>
-          </div>
+            }
+          >
+            <Scene3D />
+          </Suspense>
         </div>
       </div>
 
-      {selected && (
-        <StackModal stack={selected} catColor={cat.color} onClose={() => setSelected(null)} />
-      )}
-    </>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   Main Section
-───────────────────────────────────────────── */
-export default function HowIDo() {
-  return (
-    <section className="relative z-10 py-32 px-[6vw] bg-coal-mid border-t border-grey-border">
-      <SectionLabel>02 — Process &amp; Stack</SectionLabel>
-      <SectionTitle>
-      Skills<br />
-        <em className="font-serif" style={{ color:'#c0392c', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
-          & Strengths
-        </em>
-      </SectionTitle>
-
-      {/* Marquee */}
-      <div className="overflow-hidden border-t border-b border-grey-border py-5 mb-16">
-        <div className="flex gap-10 animate-marquee whitespace-nowrap">
-          {MARQUEE_ITEMS.map((item, i) => (
-            <span key={i}
-              className="font-display text-sm tracking-[0.2em] uppercase flex-shrink-0"
-              style={{ color: item === '·' ? '#333' : '#666' }}>
+      {/* ── Marquee ── */}
+      <div className="overflow-hidden border-t border-b border-[#111] py-4 mb-10">
+        <div className="flex gap-8 animate-marquee whitespace-nowrap">
+          {MARQUEE.map((item, i) => (
+            <span
+              key={i}
+              className="font-display text-[10px] tracking-[0.28em] uppercase flex-shrink-0"
+              style={{ color: item === '·' ? '#1e1e1e' : '#2a2a2a' }}
+            >
               {item}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Instruction */}
-      <p className="text-[11px] tracking-[0.3em] uppercase text-grey-muted mb-8">
-        — Click a category to expand · Click a skill for 3D detail view
-      </p>
+      {/* ══════════════════════════════
+          BIG RECTANGLE PANEL
+      ══════════════════════════════ */}
+      <div
+        ref={panelRef}
+        className="relative w-full overflow-hidden"
+        style={{ border: '1px solid #1e1e1e', background: '#090909' }}
+      >
+        {/* Top gradient bar */}
+        <div
+          className="h-[2px] w-full"
+          style={{ background: 'linear-gradient(90deg, #c0392b, #8b1a1a 40%, transparent)' }}
+        />
 
-      {/* Category grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {TECH_CATEGORIES.map((cat, i) => (
-          <CategoryCard key={cat.id} cat={cat} delay={i * 0.07} />
-        ))}
+        <div className="flex flex-col lg:flex-row min-h-[420px]">
+
+          {/* ── SIDEBAR tabs ── */}
+          <div
+            className="flex flex-row lg:flex-col flex-shrink-0 border-b lg:border-b-0 lg:border-r border-[#111]"
+            style={{ width: 'auto', minWidth: '10rem' }}
+          >
+            {/* Sidebar header */}
+            <div className="hidden lg:flex items-center justify-between px-5 py-4 border-b border-[#111]">
+              <span className="font-display text-[9px] tracking-[0.45em] uppercase text-[#282828]">
+                Category
+              </span>
+            </div>
+
+            {CATEGORIES.map((cat) => {
+              const isActive = cat.id === activeTab;
+              return (
+                <button
+                  key={cat.id}
+                  data-hover
+                  onClick={() => switchTab(cat.id)}
+                  className="relative flex-1 lg:flex-none text-left px-5 py-4 flex items-center gap-2.5 transition-all duration-200"
+                  style={{ background: isActive ? 'rgba(192,57,43,0.05)' : 'transparent' }}
+                >
+                  {/* Active bar — left on desktop, bottom on mobile */}
+                  <span
+                    className="hidden lg:block absolute left-0 top-0 w-[2px] h-full transition-all duration-300"
+                    style={{ background: isActive ? '#c0392b' : 'transparent' }}
+                  />
+                  <span
+                    className="lg:hidden absolute bottom-0 left-0 h-[2px] w-full transition-all duration-300"
+                    style={{ background: isActive ? '#c0392b' : 'transparent' }}
+                  />
+
+                  <span
+                    className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-200"
+                    style={{ background: isActive ? '#c0392b' : '#222' }}
+                  />
+                  <span
+                    className="font-display text-[12px] tracking-[0.14em] uppercase transition-colors duration-200 whitespace-nowrap"
+                    style={{ color: isActive ? '#fff' : '#383838' }}
+                  >
+                    {cat.label}
+                  </span>
+                  <span
+                    className="hidden lg:block ml-auto font-body text-[10px] transition-colors duration-200"
+                    style={{ color: isActive ? '#c0392b' : '#252525' }}
+                  >
+                    {cat.skills.length}
+                  </span>
+                </button>
+              );
+            })}
+
+            {/* Avg mastery — desktop only */}
+            <div className="hidden lg:flex flex-col px-5 py-5 mt-auto border-t border-[#111] gap-0.5">
+              <span className="font-display text-[9px] tracking-[0.38em] uppercase text-[#242424]">
+                Avg Mastery
+              </span>
+              <div className="flex items-baseline gap-1 mt-1">
+                <span className="font-display text-3xl leading-none" style={{ color: '#c0392b' }}>
+                  {avg}
+                </span>
+                <span className="font-display text-sm" style={{ color: '#8b1a1a' }}>%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── MAIN SKILL PANEL ── */}
+          <div className="flex-1 flex flex-col">
+
+            {/* Panel header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#111] flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                <span
+                  className="font-display text-base tracking-[0.12em] uppercase text-white"
+                >
+                  {active.label}
+                </span>
+                <span
+                  className="font-body text-[9px] tracking-[0.22em] uppercase px-2.5 py-1"
+                  style={{
+                    color: '#c0392b',
+                    border: '1px solid rgba(192,57,43,0.3)',
+                    background: 'rgba(192,57,43,0.06)',
+                  }}
+                >
+                  {active.skills.length} skills
+                </span>
+              </div>
+
+              {/* Column labels */}
+              <div className="hidden md:flex items-center gap-3 pr-1">
+                {[['Skill', '7.5rem'], ['Mastery', 'flex-1'], ['%', '2.2rem'], ['Level', '6rem'], ['Note', 'flex-1']].map(
+                  ([lbl, w]) => (
+                    <span
+                      key={lbl}
+                      className="font-body text-[9px] tracking-[0.3em] uppercase text-right"
+                      style={{ color: '#222', minWidth: w === 'flex-1' ? undefined : w, flex: w === 'flex-1' ? 1 : undefined }}
+                    >
+                      {lbl}
+                    </span>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Skill rows */}
+            <div className="flex flex-col">
+              {active.skills.map((skill, i) => (
+                <SkillRow
+                  key={`${activeTab}-${skill.name}`}
+                  skill={skill}
+                  animate={animate}
+                  i={i}
+                />
+              ))}
+            </div>
+
+            {/* Bottom stat bar */}
+            <div className="flex items-center gap-5 px-5 py-3.5 border-t border-[#111] mt-auto flex-wrap">
+              {Object.entries(
+                active.skills.reduce((acc, s) => {
+                  acc[s.tag] = (acc[s.tag] || 0) + 1;
+                  return acc;
+                }, {})
+              ).map(([tag, count]) => {
+                const tm = TAG_META[tag] || TAG_META.Intermediate;
+                return (
+                  <div key={tag} className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: tm.color }} />
+                    <span
+                      className="font-body text-[9px] tracking-[0.18em] uppercase"
+                      style={{ color: tm.color }}
+                    >
+                      {count} {tag}
+                    </span>
+                  </div>
+                );
+              })}
+              <div className="ml-auto flex items-center gap-1.5">
+                <span className="font-display text-[10px] tracking-[0.2em] uppercase text-[#252525]">
+                  Hover a skill for details
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom gradient line */}
+        <div
+          className="h-[1px] w-full"
+          style={{ background: 'linear-gradient(90deg, transparent, #c0392b44)' }}
+        />
       </div>
     </section>
   );

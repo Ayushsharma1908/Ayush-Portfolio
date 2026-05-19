@@ -72,10 +72,7 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* ── Layout:
-     Two lines → "AYUSH KUMAR" on top, "SHARMA" below
-     Push content down with pt-28 so it clears the ~80px navbar
-  ─────────────────────────────────────────────────────────── */
+  /* ── Layout:*/
   return (
     <section className="relative w-screen h-screen flex items-center justify-center overflow-hidden z-10">
 
