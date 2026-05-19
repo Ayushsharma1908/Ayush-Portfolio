@@ -475,7 +475,7 @@ export default function HowIDo() {
               })}
               <div className="ml-auto flex items-center gap-1.5">
                 <span className="font-display text-[10px] tracking-[0.2em] uppercase text-[#252525]">
-                  Hover a skill for details
+                  Hover a skill for complete details
                 </span>
               </div>
             </div>
