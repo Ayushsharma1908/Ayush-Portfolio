@@ -390,7 +390,7 @@ export default function HowIDo() {
             {/* Avg mastery — desktop only */}
             <div className="hidden lg:flex flex-col px-5 py-5 mt-auto border-t border-[#111] gap-0.5">
               <span className="font-display text-[9px] tracking-[0.38em] uppercase text-[#242424]">
-                Avg Mastery
+                Average Mastery
               </span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-display text-3xl leading-none" style={{ color: '#c0392b' }}>
