@@ -81,7 +81,7 @@ function FloatingOrb() {
     ref.current.rotation.y = clock.getElapsedTime() * 0.26;
   });
   return (
-    <Float speed={1.6} rotationIntensity={0.4} floatIntensity={1.2}>
+    <Float speed={2.6} rotationIntensity={0.4} floatIntensity={1.2}>
       <mesh ref={ref} scale={1.5}>
         <icosahedronGeometry args={[1, 2]} />
         <MeshDistortMaterial color="#c0392b" distort={0.35} speed={2} wireframe opacity={0.5} transparent />
