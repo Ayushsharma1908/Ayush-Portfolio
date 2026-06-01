@@ -105,7 +105,7 @@ export default function Hero() {
         <p ref={eyebrowRef}
           className="font-body text-xs tracking-[0.5em] text-[#c0392b] uppercase mb-6"
           style={{ opacity:0, transform:'translateY(-12px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
-          Full-Stack Developer &nbsp;/&nbsp; AI Enthusiast &nbsp;/&nbsp; India
+          Full-Stack Developer &nbsp;/&nbsp; AI Enthusiast 
         </p>
 
         {/* NAME */}
@@ -154,12 +154,12 @@ export default function Hero() {
       </div>
 
       {/* Scroll hint */}
-      <div ref={scrollRef}
+      {/* <div ref={scrollRef}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
         style={{ opacity:0, transition:'opacity 1s ease 1.4s' }}>
         <span className="text-[10px] tracking-[0.35em] uppercase text-grey-muted">Scroll</span>
         <div className="w-px h-14 bg-gradient-to-b from-[#c0392b] to-transparent animate-scroll-line" />
-      </div>
+      </div> */}
     </section>
   );
 }
