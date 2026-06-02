@@ -105,7 +105,7 @@ export default function Hero() {
         <p ref={eyebrowRef}
           className="font-body text-xs tracking-[0.5em] text-[#c0392b] uppercase mb-6"
           style={{ opacity:0, transform:'translateY(-12px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
-          Full-Stack Developer &nbsp;/&nbsp; AI Enthusiast 
+          Full-Stack Developer &nbsp;/&nbsp; UI/UX Developer
         </p>
 
         {/* NAME */}
