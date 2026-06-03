@@ -102,11 +102,11 @@ export default function Hero() {
       <div className="relative z-10 text-center select-none pt-28">
 
         {/* Eyebrow */}
-        <p ref={eyebrowRef}
+        {/* <p ref={eyebrowRef}
           className="font-body text-xs tracking-[0.5em] text-[#e74c3c] uppercase mb-6"
           style={{ opacity:0, transform:'translateY(-12px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
           Full-Stack Developer &nbsp;/&nbsp; UI/UX Developer
-        </p>
+        </p> */}
 
         {/* NAME */}
         <div ref={nameRef} className="font-display leading-none text-center"
