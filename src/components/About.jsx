@@ -41,7 +41,7 @@ export default function About() {
         <div>
           <SectionTitle>
             The<br />
-            <em className="font-serif" style={{ color: '#c0392b', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
+            <em className="font-serif" style={{ color: '#e74c3c', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
               Developer
             </em>
           </SectionTitle>

@@ -9,8 +9,8 @@ export default {
         body: ['"DM Sans"', 'sans-serif'],
       },
       colors: {
-        red: { DEFAULT: '#c0392b', dark: '#8b1a1a', glow: '#ff2d2d' },
-        grey: { DEFAULT: '#2a2a2a', light: '#555555', muted: '#888888', border: '#1e1e1e' },
+        red: { DEFAULT: '#e74c3c', dark: '#c0392b', glow: '#ff7675' },
+        grey: { DEFAULT: '#555555', light: '#a3a3a3', muted: '#c8c8c8', border: '#2e2e2e' },
         coal: { DEFAULT: '#0a0a0a', mid: '#0d0d0d', card: '#111111' },
       },
     },

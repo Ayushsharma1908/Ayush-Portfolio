@@ -72,20 +72,20 @@ export default function Contact() {
     fontFamily: "'DM Sans', sans-serif",
     fontWeight: 300,
     padding: '0.85rem 1rem',
-    border: `1px solid ${focused === field ? '#c0392b' : '#1e1e1e'}`,
+    border: `1px solid ${focused === field ? '#e74c3c' : '#2e2e2e'}`,
     transition: 'border-color 0.3s, box-shadow 0.3s',
-    boxShadow: focused === field ? '0 0 0 3px rgba(192,57,43,0.07)' : 'none',
+    boxShadow: focused === field ? '0 0 0 3px rgba(231,76,60,0.07)' : 'none',
     display: 'block',
   });
 
   return (
-    <section className="relative z-10 py-32 px-[6vw] bg-[#0a0a0a] border-t border-[#1e1e1e] overflow-hidden">
+    <section className="relative z-10 py-32 px-[6vw] bg-[#0a0a0a] border-t border-[#2e2e2e] overflow-hidden">
 
       {/* Background glows */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top right, rgba(192,57,43,0.08) 0%, transparent 65%)' }} />
+        style={{ background: 'radial-gradient(ellipse at top right, rgba(231,76,60,0.08) 0%, transparent 65%)' }} />
       <div className="absolute bottom-0 left-0 w-[350px] h-[350px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(192,57,43,0.05) 0%, transparent 65%)' }} />
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(231,76,60,0.05) 0%, transparent 65%)' }} />
 
       <SectionLabel>05 — Contact</SectionLabel>
 
@@ -93,7 +93,7 @@ export default function Contact() {
       <h2 ref={titleRef} className="font-display leading-none uppercase text-white mb-16"
         style={{ fontSize: 'clamp(2.8rem, 7vw, 7.5rem)' }}>
         Get In<br />
-        <em className="font-serif" style={{ color: '#c0392b', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
+        <em className="font-serif" style={{ color: '#e74c3c', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
           Touch
         </em>
       </h2>
@@ -103,10 +103,10 @@ export default function Contact() {
         {/* ─── LEFT: Info + Socials ─── */}
         <div ref={leftRef} className="flex flex-col gap-10">
 
-          <p className="font-body text-base leading-[1.9] text-[#888] font-light max-w-md">
+          <p className="font-body text-base leading-[1.9] text-grey-muted font-light max-w-md">
             Have a project in mind, a collaboration idea, or just want to say hello?
             Fill out the form or reach me directly — I read every message and reply within{' '}
-            <span style={{ color: '#c0392b' }}>24 hours.</span>
+            <span style={{ color: '#e74c3c' }}>24 hours.</span>
           </p>
 
           {/* Social cards */}
@@ -117,36 +117,36 @@ export default function Contact() {
                 target={s.label !== 'Email' ? '_blank' : undefined}
                 rel="noreferrer"
                 data-hover
-                className="group relative flex items-center gap-4 border border-[#1e1e1e] p-4 overflow-hidden transition-all duration-300 hover:border-[#c0392b]"
+                className="group relative flex items-center gap-4 border border-[#2e2e2e] p-4 overflow-hidden transition-all duration-300 hover:border-[#e74c3c]"
               >
                 {/* sweep */}
                 <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                  style={{ background: 'linear-gradient(90deg, rgba(192,57,43,0.07), transparent)' }} />
+                  style={{ background: 'linear-gradient(90deg, rgba(231,76,60,0.07), transparent)' }} />
 
                 {/* Icon */}
-                <div className="relative z-10 w-10 h-10 flex items-center justify-center border border-[#1e1e1e] text-[#666] group-hover:border-[#c0392b] group-hover:text-[#c0392b] transition-all duration-300 flex-shrink-0">
+                <div className="relative z-10 w-10 h-10 flex items-center justify-center border border-[#2e2e2e] text-[#a3a3a3] group-hover:border-[#e74c3c] group-hover:text-[#e74c3c] transition-all duration-300 flex-shrink-0">
                   {s.icon}
                 </div>
 
                 <div className="relative z-10 flex flex-col min-w-0">
-                  <span className="text-[10px] tracking-[0.3em] uppercase text-[#555] mb-0.5 font-body">{s.label}</span>
-                  <span className="text-sm text-white font-light truncate group-hover:text-[#c0392b] transition-colors duration-300 font-body">
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-[#a3a3a3] mb-0.5 font-body">{s.label}</span>
+                  <span className="text-sm text-white font-light truncate group-hover:text-[#e74c3c] transition-colors duration-300 font-body">
                     {s.value}
                   </span>
                 </div>
 
-                <span className="relative z-10 ml-auto text-[#333] group-hover:text-[#c0392b] group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">↗</span>
+                <span className="relative z-10 ml-auto text-[#888] group-hover:text-[#e74c3c] group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">↗</span>
               </a>
             ))}
           </div>
 
           {/* Availability pill */}
-          <div className="inline-flex items-center gap-3 border border-[#1e1e1e] px-5 py-3 self-start">
+          <div className="inline-flex items-center gap-3 border border-[#2e2e2e] px-5 py-3 self-start">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
             </span>
-            <span className="text-[11px] tracking-[0.25em] uppercase text-[#666] font-body">
+            <span className="text-[11px] tracking-[0.25em] uppercase text-[#a3a3a3] font-body">
               Open to freelance &amp; collaborations
             </span>
           </div>
@@ -159,7 +159,7 @@ export default function Contact() {
             {/* Name + Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] tracking-[0.3em] uppercase text-[#555] font-body">Your Name *</label>
+                <label className="text-[10px] tracking-[0.3em] uppercase text-[#a3a3a3] font-body">Your Name *</label>
                 <input type="text" name="name" required
                   placeholder="Your Name"
                   value={form.name} onChange={handleChange}
@@ -167,7 +167,7 @@ export default function Contact() {
                   style={inputStyle('name')} />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] tracking-[0.3em] uppercase text-[#555] font-body">Your Email *</label>
+                <label className="text-[10px] tracking-[0.3em] uppercase text-[#a3a3a3] font-body">Your Email *</label>
                 <input type="email" name="email" required
                   placeholder="your@gmail.com"
                   value={form.email} onChange={handleChange}
@@ -178,7 +178,7 @@ export default function Contact() {
 
             {/* Subject */}
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] tracking-[0.3em] uppercase text-[#555] font-body">Subject</label>
+              <label className="text-[10px] tracking-[0.3em] uppercase text-[#a3a3a3] font-body">Subject</label>
               <input type="text" name="subject"
                 placeholder="Project enquiry · Collaboration · Just saying hi"
                 value={form.subject} onChange={handleChange}
@@ -188,7 +188,7 @@ export default function Contact() {
 
             {/* Message */}
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] tracking-[0.3em] uppercase text-[#555] font-body">Message *</label>
+              <label className="text-[10px] tracking-[0.3em] uppercase text-[#a3a3a3] font-body">Message *</label>
               <textarea name="message" required rows={6}
                 placeholder="Tell me about your project, idea, or just say hello..."
                 value={form.message} onChange={handleChange}
@@ -200,8 +200,8 @@ export default function Contact() {
             <button type="submit" data-hover disabled={status === 'sending'}
               className="relative overflow-hidden group mt-1"
               style={{
-                background:   status === 'sent' ? '#0d2b0d' : '#c0392b',
-                border:       `1px solid ${status === 'sent' ? '#1a5c1a' : '#c0392b'}`,
+                background:   status === 'sent' ? '#27ae60' : '#e74c3c',
+                border:       `1px solid ${status === 'sent' ? '#2ecc71' : '#e74c3c'}`,
                 color:        '#fff',
                 padding:      '1rem 2rem',
                 fontFamily:   "'Bebas Neue', sans-serif",
@@ -230,7 +230,7 @@ export default function Contact() {
               )}
             </button>
 
-            <p className="text-[10px] tracking-[0.12em] text-[#444] font-light font-body leading-relaxed">
+            <p className="text-[10px] tracking-[0.12em] text-[#888] font-light font-body leading-relaxed">
               * Clicking send will open your default email app pre-filled with your message — so it goes directly from <em>your</em> email to mine.
             </p>
 

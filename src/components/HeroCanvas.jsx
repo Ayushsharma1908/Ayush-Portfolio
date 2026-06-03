@@ -21,11 +21,11 @@ export default function HeroCanvas() {
     // ── Lights (much brighter) ──
     scene.add(new THREE.AmbientLight(0x330000, 2));
 
-    const redLight = new THREE.PointLight(0xff2200, 12, 30);
+    const redLight = new THREE.PointLight(0xff3b30, 12, 30);
     redLight.position.set(3, 2, 5);
     scene.add(redLight);
 
-    const redLight2 = new THREE.PointLight(0xff0000, 8, 25);
+    const redLight2 = new THREE.PointLight(0xff3b30, 8, 25);
     redLight2.position.set(-4, -1, 4);
     scene.add(redLight2);
 
@@ -39,10 +39,10 @@ export default function HeroCanvas() {
     for (let i = 0; i < 18; i++) {
       const isRed = i % 3 === 0;
       const mat = new THREE.MeshBasicMaterial({
-        color: isRed ? 0xff2200 : 0x444444,
+        color: isRed ? 0xff3b30 : 0x666666,
         wireframe: true,
         transparent: true,
-        opacity: isRed ? 0.55 : 0.18,
+        opacity: isRed ? 0.55 : 0.22,
       });
       const mesh = new THREE.Mesh(boxGeo, mat);
       const s = 0.4 + Math.random() * 2.2;
@@ -61,7 +61,7 @@ export default function HeroCanvas() {
     }
 
     // ── Grid — more visible ──
-    const grid = new THREE.GridHelper(60, 40, 0x440000, 0x220000);
+    const grid = new THREE.GridHelper(60, 40, 0x661111, 0x330000);
     grid.position.y = -6;
     scene.add(grid);
 
@@ -71,20 +71,20 @@ export default function HeroCanvas() {
     for (let i = 0; i < pCount * 3; i++) pPos[i] = (Math.random() - 0.5) * 30;
     const pGeo = new THREE.BufferGeometry();
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    const pMat = new THREE.PointsMaterial({ color: 0x993322, size: 0.03, transparent: true, opacity: 0.9 });
+    const pMat = new THREE.PointsMaterial({ color: 0xc83b2b, size: 0.03, transparent: true, opacity: 0.9 });
     scene.add(new THREE.Points(pGeo, pMat));
 
     // ── Torus rings — bright red ──
     const torus1 = new THREE.Mesh(
       new THREE.TorusGeometry(2.8, 0.025, 16, 120),
-      new THREE.MeshBasicMaterial({ color: 0xff2200, transparent: true, opacity: 0.5 })
+      new THREE.MeshBasicMaterial({ color: 0xff3b30, transparent: true, opacity: 0.5 })
     );
     torus1.rotation.x = Math.PI / 2;
     scene.add(torus1);
 
     const torus2 = new THREE.Mesh(
       new THREE.TorusGeometry(3.6, 0.015, 16, 120),
-      new THREE.MeshBasicMaterial({ color: 0xcc1100, transparent: true, opacity: 0.3 })
+      new THREE.MeshBasicMaterial({ color: 0xe74c3c, transparent: true, opacity: 0.3 })
     );
     torus2.rotation.x = Math.PI / 3;
     torus2.rotation.y = Math.PI / 6;
@@ -93,7 +93,7 @@ export default function HeroCanvas() {
     // ── Icosahedron in center ──
     const icoMesh = new THREE.Mesh(
       new THREE.IcosahedronGeometry(1.2, 1),
-      new THREE.MeshBasicMaterial({ color: 0xff1100, wireframe: true, transparent: true, opacity: 0.25 })
+      new THREE.MeshBasicMaterial({ color: 0xff3b30, wireframe: true, transparent: true, opacity: 0.25 })
     );
     scene.add(icoMesh);
 

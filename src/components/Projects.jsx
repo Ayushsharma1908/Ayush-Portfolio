@@ -60,7 +60,7 @@ function ProjectRow({ project, delay }) {
 
         {/* Number */}
         <span className="font-display text-base tracking-[0.25em] transition-colors duration-300 min-w-[3rem]"
-          style={{ color: hovered ? '#c0392b' : '#333' }}>
+          style={{ color: hovered ? '#e74c3c' : '#737373' }}>
           {project.num}
         </span>
 
@@ -71,7 +71,7 @@ function ProjectRow({ project, delay }) {
             style={{
               fontSize: 'clamp(1.4rem, 3vw, 2.4rem)',
               letterSpacing: '0.03em',
-              color: hovered ? '#c0392b' : '#f0f0f0',
+              color: hovered ? '#e74c3c' : '#f0f0f0',
             }}
           >
             {project.name}
@@ -92,7 +92,7 @@ function ProjectRow({ project, delay }) {
         <span
           className="text-2xl transition-all duration-300"
           style={{
-            color: hovered ? '#c0392b' : '#333',
+            color: hovered ? '#e74c3c' : '#737373',
             transform: hovered ? 'translate(6px,-6px)' : 'none',
           }}
         >
@@ -109,7 +109,7 @@ export default function Projects() {
       <SectionLabel>03 — Work</SectionLabel>
       <SectionTitle>
         Featured<br />
-        <em className="font-serif" style={{ color: '#c0392b', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
+        <em className="font-serif" style={{ color: '#e74c3c', fontSize: '0.6em', fontStyle: 'italic', display: 'block' }}>
           Projects
         </em>
       </SectionTitle>

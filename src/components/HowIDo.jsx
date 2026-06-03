@@ -167,10 +167,10 @@ const CATEGORIES = [
 ];
 
 const TAG_META = {
-  Expert:       { color: '#ff5540', bg: 'rgba(192,57,43,0.14)', border: 'rgba(192,57,43,0.45)' },
-  Proficient:   { color: '#e07060', bg: 'rgba(192,57,43,0.07)', border: 'rgba(192,57,43,0.22)' },
-  Intermediate: { color: '#666',    bg: 'rgba(70,70,70,0.14)',  border: 'rgba(80,80,80,0.32)'  },
-  Learning:     { color: '#444',    bg: 'rgba(30,30,30,0.18)',  border: 'rgba(55,55,55,0.38)'  },
+  Expert:       { color: '#e74c3c', bg: 'rgba(231,76,60,0.14)', border: 'rgba(231,76,60,0.45)' },
+  Proficient:   { color: '#ff7675', bg: 'rgba(231,76,60,0.07)', border: 'rgba(231,76,60,0.22)' },
+  Intermediate: { color: '#a3a3a3', bg: 'rgba(163,163,163,0.14)', border: 'rgba(163,163,163,0.35)' },
+  Learning:     { color: '#888888', bg: 'rgba(136,136,136,0.14)', border: 'rgba(136,136,136,0.35)' },
 };
 
 const MARQUEE = [
@@ -195,7 +195,7 @@ function FloatingOrb() {
     <Float speed={1.6} rotationIntensity={0.4} floatIntensity={1.2}>
       <mesh ref={ref} scale={1.5}>
         <icosahedronGeometry args={[1, 2]} />
-        <MeshDistortMaterial color="#c0392b" distort={0.35} speed={2} wireframe opacity={0.5} transparent />
+        <MeshDistortMaterial color="#e74c3c" distort={0.35} speed={2} wireframe opacity={0.5} transparent />
       </mesh>
     </Float>
   );
@@ -211,7 +211,7 @@ function WireBox({ pos, size, speed, opacity = 0.12 }) {
   return (
     <mesh ref={ref} position={pos}>
       <boxGeometry args={[size, size, size]} />
-      <meshBasicMaterial color="#c0392b" wireframe transparent opacity={opacity} />
+      <meshBasicMaterial color="#e74c3c" wireframe transparent opacity={opacity} />
     </mesh>
   );
 }
@@ -225,7 +225,7 @@ function Particles() {
   useFrame(({ clock }) => { ref.current.rotation.y = clock.getElapsedTime() * 0.04; });
   return (
     <points ref={ref} geometry={geo}>
-      <pointsMaterial color="#661111" size={0.025} transparent opacity={0.9} />
+      <pointsMaterial color="#c0392b" size={0.025} transparent opacity={0.9} />
     </points>
   );
 }
@@ -234,8 +234,8 @@ function Scene3D() {
   return (
     <Canvas camera={{ position: [0, 0, 5], fov: 55 }} style={{ background: 'transparent' }}>
       <ambientLight intensity={0.3} />
-      <pointLight position={[3, 3, 3]} color="#c0392b" intensity={5} />
-      <pointLight position={[-3, -2, 2]} color="#ff2200" intensity={2.5} />
+      <pointLight position={[3, 3, 3]} color="#e74c3c" intensity={5} />
+      <pointLight position={[-3, -2, 2]} color="#ff3b30" intensity={2.5} />
       <FloatingOrb />
       <WireBox pos={[ 2.8,  1.2, -1]}    size={0.7} speed={0.3} opacity={0.2} />
       <WireBox pos={[-2.5, -1.0, -1]}    size={0.5} speed={0.5} opacity={0.15} />
@@ -265,8 +265,8 @@ function Bar({ pct, animate }) {
         style={{
           position: 'absolute', left: 0, top: 0, height: '100%',
           width: `${w}%`,
-          background: 'linear-gradient(90deg, #8b1a1a, #c0392b, #ff5540)',
-          boxShadow: '0 0 6px rgba(192,57,43,0.6)',
+          background: 'linear-gradient(90deg, #c0392b, #e74c3c, #ff7675)',
+          boxShadow: '0 0 6px rgba(231,76,60,0.6)',
           borderRadius: '999px',
           transition: 'width 1s cubic-bezier(0.16,1,0.3,1)',
         }}
@@ -288,16 +288,16 @@ function SkillRow({ skill, animate, i }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="group flex items-center gap-3 sm:gap-4 px-5 py-3.5 border-b border-[#111] last:border-b-0 transition-colors duration-200"
-      style={{ background: hovered ? 'rgba(192,57,43,0.025)' : 'transparent' }}
+      style={{ background: hovered ? 'rgba(231,76,60,0.025)' : 'transparent' }}
     >
       {/* Icon — real SVG, tinted with portfolio colors */}
       <div
         className="w-9 h-9 flex-shrink-0 flex items-center justify-center border transition-all duration-300"
         style={{
-          border:     `1px solid ${hovered ? 'rgba(192,57,43,0.5)' : '#1a1a1a'}`,
-          color:      hovered ? '#c0392b' : '#2e2e2e',
-          background: hovered ? 'rgba(192,57,43,0.07)' : '#0a0a0a',
-          boxShadow:  hovered ? '0 0 12px rgba(192,57,43,0.15)' : 'none',
+          border:     `1px solid ${hovered ? 'rgba(231,76,60,0.5)' : '#2e2e2e'}`,
+          color:      hovered ? '#e74c3c' : '#737373',
+          background: hovered ? 'rgba(231,76,60,0.07)' : '#0a0a0a',
+          boxShadow:  hovered ? '0 0 12px rgba(231,76,60,0.15)' : 'none',
         }}
       >
         <IconComp size={18} />
@@ -306,7 +306,7 @@ function SkillRow({ skill, animate, i }) {
       {/* Name */}
       <span
         className="font-body text-[0.82rem] font-light flex-shrink-0 transition-colors duration-200"
-        style={{ width: '7.5rem', color: hovered ? '#fff' : '#888' }}
+        style={{ width: '7.5rem', color: hovered ? '#fff' : '#a3a3a3' }}
       >
         {skill.name}
       </span>
@@ -317,7 +317,7 @@ function SkillRow({ skill, animate, i }) {
       {/* % */}
       <span
         className="font-display text-sm flex-shrink-0 text-right transition-colors duration-200"
-        style={{ width: '2.5rem', color: hovered ? '#ff5540' : '#c0392b', letterSpacing: '0.04em' }}
+        style={{ width: '2.5rem', color: hovered ? '#ff7675' : '#e74c3c', letterSpacing: '0.04em' }}
       >
         {skill.pct}%
       </span>
@@ -335,7 +335,7 @@ function SkillRow({ skill, animate, i }) {
       {/* Note */}
       <span
         className="hidden lg:block font-body text-[10px] leading-relaxed flex-1 transition-all duration-300"
-        style={{ color: hovered ? '#444' : '#1e1e1e', fontStyle: 'italic' }}
+        style={{ color: hovered ? '#c8c8c8' : '#737373', fontStyle: 'italic' }}
       >
         {skill.note}
       </span>
@@ -363,10 +363,10 @@ export default function HowIDo() {
   };
 
   return (
-    <section className="relative z-10 py-28 px-[6vw] bg-[#0d0d0d] border-t border-[#1e1e1e] overflow-hidden">
+    <section className="relative z-10 py-28 px-[6vw] bg-[#0d0d0d] border-t border-[#2e2e2e] overflow-hidden">
       {/* bg glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(192,57,43,0.04) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(ellipse, rgba(231,76,60,0.04) 0%, transparent 70%)' }} />
 
       <SectionLabel>02 — Skills & Stack</SectionLabel>
 
@@ -376,25 +376,25 @@ export default function HowIDo() {
           <h2 className="font-display leading-none uppercase text-white"
             style={{ fontSize: 'clamp(2.8rem, 6vw, 6rem)' }}>
             Skills &amp;<br />
-            <em className="font-serif" style={{ color:'#c0392b', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
+            <em className="font-serif" style={{ color:'#e74c3c', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
               Strengths
             </em>
           </h2>
-          <p className="font-body text-xs text-[#3a3a3a] font-light mt-3 max-w-xs leading-relaxed">
+          <p className="font-body text-xs text-grey-light font-light mt-3 max-w-xs leading-relaxed">
             Every tool sharpened. Click a category — see the depth.
           </p>
         </div>
 
         {/* 3D box */}
         <div className="w-full lg:w-60 h-52 lg:h-56 flex-shrink-0 relative"
-          style={{ border:'1px solid #1a1a1a', background:'#070707' }}>
-          <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#c0392b44]" />
-          <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-[#c0392b44]" />
-          <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-[#c0392b44]" />
-          <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#c0392b44]" />
+          style={{ border:'1px solid #2e2e2e', background:'#070707' }}>
+          <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#e74c3c44]" />
+          <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-[#e74c3c44]" />
+          <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-[#e74c3c44]" />
+          <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#e74c3c44]" />
           <Suspense fallback={
             <div className="w-full h-full flex items-center justify-center">
-              <span className="font-display text-[10px] tracking-widest text-[#222]">LOADING 3D…</span>
+              <span className="font-display text-[10px] tracking-widest text-[#737373]">LOADING 3D…</span>
             </div>
           }>
             <Scene3D />
@@ -408,7 +408,7 @@ export default function HowIDo() {
           {MARQUEE.map((item, i) => (
             <span key={i}
               className="font-display text-[10px] tracking-[0.28em] uppercase flex-shrink-0"
-              style={{ color: item === '·' ? '#1e1e1e' : '#2a2a2a' }}>
+              style={{ color: item === '·' ? '#3a3a3a' : '#666' }}>
               {item}
             </span>
           ))}

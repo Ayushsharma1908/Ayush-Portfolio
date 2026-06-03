@@ -86,19 +86,19 @@ function RoleCard({ role, delay }) {
         className="group relative h-full flex flex-col overflow-hidden"
         style={{
           background:  '#0f0f0f',
-          border:      `1px solid ${hovered ? '#c0392b55' : '#1e1e1e'}`,
+          border:      `1px solid ${hovered ? '#e74c3c55' : '#2e2e2e'}`,
           transform:   `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
           transition:  'transform 0.22s ease, border-color 0.35s, box-shadow 0.35s',
-          boxShadow:   hovered ? '0 20px 50px rgba(192,57,43,0.1), 0 4px 12px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.3)',
+          boxShadow:   hovered ? '0 20px 50px rgba(231,76,60,0.1), 0 4px 12px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.3)',
         }}
       >
         {/* Top bar */}
         <div className="h-0.5 w-full flex-shrink-0"
-          style={{ background: hovered ? 'linear-gradient(90deg,#c0392b,#8b1a1a,transparent)' : '#181818', transition: 'background 0.35s' }} />
+          style={{ background: hovered ? 'linear-gradient(90deg,#e74c3c,#c0392b,transparent)' : '#181818', transition: 'background 0.35s' }} />
 
         {/* Glow */}
         <div className="absolute inset-0 pointer-events-none transition-opacity duration-500"
-          style={{ opacity: hovered ? 1 : 0, background: 'radial-gradient(ellipse at top left, rgba(192,57,43,0.07) 0%, transparent 60%)' }} />
+          style={{ opacity: hovered ? 1 : 0, background: 'radial-gradient(ellipse at top left, rgba(231,76,60,0.07) 0%, transparent 60%)' }} />
 
         {/* Body */}
         <div className="relative z-10 flex flex-col flex-1 p-6">
@@ -106,14 +106,14 @@ function RoleCard({ role, delay }) {
           {/* Header: num + icon */}
           <div className="flex items-center justify-between mb-5">
             <span className="font-display text-[11px] tracking-[0.5em] transition-colors duration-300"
-              style={{ color: hovered ? '#c0392b' : '#252525' }}>
+              style={{ color: hovered ? '#e74c3c' : '#737373' }}>
               {role.num}
             </span>
             <div className="w-11 h-11 flex items-center justify-center border transition-all duration-350"
               style={{
-                border:     `1px solid ${hovered ? '#c0392b' : '#1e1e1e'}`,
-                color:      hovered ? '#c0392b' : '#2e2e2e',
-                background: hovered ? 'rgba(192,57,43,0.07)' : 'transparent',
+                border:     `1px solid ${hovered ? '#e74c3c' : '#2e2e2e'}`,
+                color:      hovered ? '#e74c3c' : '#737373',
+                background: hovered ? 'rgba(231,76,60,0.07)' : 'transparent',
               }}>
               {role.icon}
             </div>
@@ -127,10 +127,10 @@ function RoleCard({ role, delay }) {
 
           {/* Divider */}
           <div className="h-px mb-4 transition-colors duration-350"
-            style={{ background: hovered ? '#c0392b33' : '#181818' }} />
+            style={{ background: hovered ? '#e74c3c33' : '#181818' }} />
 
           {/* Description */}
-          <p className="font-body text-[0.82rem] leading-[1.8] text-[#666] font-light mb-5 flex-1">
+          <p className="font-body text-[0.82rem] leading-[1.8] text-[#a3a3a3] font-light mb-5 flex-1">
             {role.desc}
           </p>
 
@@ -139,8 +139,8 @@ function RoleCard({ role, delay }) {
             {role.details.map((d) => (
               <li key={d} className="flex items-center gap-2.5">
                 <span className="w-1 h-1 rounded-full flex-shrink-0 transition-colors duration-300"
-                  style={{ background: hovered ? '#c0392b' : '#2a2a2a' }} />
-                <span className="font-body text-[0.75rem] text-[#555] font-light">{d}</span>
+                  style={{ background: hovered ? '#e74c3c' : '#2a2a2a' }} />
+                <span className="font-body text-[0.75rem] text-[#999] font-light">{d}</span>
               </li>
             ))}
           </ul>
@@ -151,9 +151,9 @@ function RoleCard({ role, delay }) {
               <span key={t}
                 className="font-body text-[9px] tracking-[0.15em] uppercase px-2.5 py-1 transition-all duration-300"
                 style={{
-                  border:     `1px solid ${hovered ? '#c0392b44' : '#1e1e1e'}`,
-                  color:      hovered ? '#c0392b' : '#383838',
-                  background: hovered ? 'rgba(192,57,43,0.04)' : 'transparent',
+                  border:     `1px solid ${hovered ? '#e74c3c44' : '#2e2e2e'}`,
+                  color:      hovered ? '#e74c3c' : '#888',
+                  background: hovered ? 'rgba(231,76,60,0.04)' : 'transparent',
                 }}>
                 {t}
               </span>
@@ -163,7 +163,7 @@ function RoleCard({ role, delay }) {
 
         {/* Bottom accent */}
         <div className="h-px flex-shrink-0 transition-all duration-350"
-          style={{ background: hovered ? 'linear-gradient(90deg,transparent,#c0392b33)' : 'transparent' }} />
+          style={{ background: hovered ? 'linear-gradient(90deg,transparent,#e74c3c33)' : 'transparent' }} />
       </div>
     </div>
   );
@@ -173,7 +173,7 @@ export default function WhatIDo() {
   const introRef = useScrollReveal({ delay: 0.08, from: 'translateY(24px)' });
 
   return (
-    <section className="relative z-10 py-28 px-[6vw] bg-[#0a0a0a] border-t border-[#1e1e1e]">
+    <section className="relative z-10 py-28 px-[6vw] bg-[#0a0a0a] border-t border-[#2e2e2e]">
       <SectionLabel>01 — Expertise</SectionLabel>
 
       {/* Title row */}
@@ -181,18 +181,18 @@ export default function WhatIDo() {
         <h2 className="font-display leading-none uppercase text-white"
           style={{ fontSize: 'clamp(2.8rem, 6vw, 6rem)' }}>
           What<br />
-          <em className="font-serif" style={{ color:'#c0392b', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
+          <em className="font-serif" style={{ color:'#e74c3c', fontSize:'0.6em', fontStyle:'italic', display:'block' }}>
             I Do
           </em>
         </h2>
         <p ref={introRef}
-          className="font-body text-xs text-[#444] font-light leading-relaxed max-w-[220px] md:text-right md:mb-1">
+          className="font-body text-xs text-[#888] font-light leading-relaxed max-w-[220px] md:text-right md:mb-1">
           A developer who designs.<br />A designer who ships.
         </p>
       </div>
 
       {/* Red divider */}
-      <div className="w-full h-px mb-12" style={{ background: 'linear-gradient(90deg,#c0392b,#1e1e1e)' }} />
+      <div className="w-full h-px mb-12" style={{ background: 'linear-gradient(90deg,#e74c3c,#2e2e2e)' }} />
 
       {/* 2×2 grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -206,7 +206,7 @@ export default function WhatIDo() {
         {[['4', 'Core Areas'], ['15+', 'Projects'], ['2+', 'Years']].map(([n, l]) => (
           <div key={l} className="flex items-baseline gap-2">
             <span className="font-display text-xl text-white">{n}</span>
-            <span className="text-[10px] tracking-[0.25em] uppercase text-[#333]">{l}</span>
+            <span className="text-[10px] tracking-[0.25em] uppercase text-[#888]">{l}</span>
           </div>
         ))}
       </div>

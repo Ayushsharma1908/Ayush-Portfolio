@@ -33,13 +33,13 @@ export default function Cursor() {
       dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
       ring.style.width = '56px';
       ring.style.height = '56px';
-      ring.style.borderColor = 'rgba(192,57,43,0.8)';
+      ring.style.borderColor = 'rgba(231,76,60,0.8)';
     };
     const onLeave = () => {
       dot.style.transform = 'translate(-50%,-50%) scale(1)';
       ring.style.width = '32px';
       ring.style.height = '32px';
-      ring.style.borderColor = 'rgba(192,57,43,0.5)';
+      ring.style.borderColor = 'rgba(231,76,60,0.5)';
     };
 
     const hoverEls = document.querySelectorAll('a, button, [data-hover]');
