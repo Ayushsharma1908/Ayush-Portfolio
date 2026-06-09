@@ -111,7 +111,7 @@ export default function Hero() {
         {/* NAME */}
         <div ref={nameRef} className="font-display leading-none text-center"
           style={{ fontSize:'clamp(4rem, 13vw, 13rem)',
-                   transition:'transform 0.1s linear, opacity 0.1s linear' }}>
+                   transition:'transform 0.1s linear, opacity 0.2s linear' }}>
 
           {/* Line 1: AYUSH KUMAR */}
           <div className="overflow-hidden block">
