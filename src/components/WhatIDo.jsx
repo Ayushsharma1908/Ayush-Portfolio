@@ -55,7 +55,7 @@ const ROLES = [
     ),
     desc: 'From idea to deployment — clean architecture, maintainable code, and CI/CD workflows so teams move fast without breaking things.',
     details: ['Vercel deployment', 'Git strategies', 'Performance tuning', 'Open source'],
-    tags: ['Vercel', 'Git', 'TypeScript', 'CI/CD'],
+    tags: ['Vercel', 'Git', 'n8n', 'CI/CD'],
   },
 ];
 
